@@ -26,7 +26,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/NorskHelsenett/gslb-event-bot
+          images: ghcr.io/norskhelsenett/gslb-event-bot
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
@@ -83,7 +83,7 @@ jobs:
         run: |
           export HELM_VERSION=${VERSION#v*}
           ./yq e -i '.version = strenv(HELM_VERSION),.appVersion = strenv(VERSION)' charts/event-bot/Chart.yaml
-          ./yq e -i '.image.tag = strenv(HELM_VERSION),.image.repository = "ncr.sky.nhn.no/ghcr/NorskHelsenett/gslb-event-bot"' charts/event-bot/values.yaml
+          ./yq e -i '.image.tag = strenv(HELM_VERSION),.image.repository = "ncr.sky.nhn.no/ghcr/norskhelsenett/gslb-event-bot"' charts/event-bot/values.yaml
           helm package charts/event-bot
           echo  ${{ secrets.GITHUB_TOKEN }} | helm registry login -u ${{ github.actor }} ghcr.io --password-stdin
-          helm push gslb-event-bot-${HELM_VERSION}.tgz oci://ghcr.io/NorskHelsenett/helm/
+          helm push gslb-event-bot-${HELM_VERSION}.tgz oci://ghcr.io/norskhelsenett/helm/
