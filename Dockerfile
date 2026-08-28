@@ -21,7 +21,7 @@ WORKDIR /app
 
 RUN addgroup -g 1000 -S app-group && adduser -u 1000 -S app-user -G app-group
 
-COPY --from=build /app/gslb-event-bot /app/gslb-event-bot
+COPY --from=build /app/gslb-event-bot /app/event-bot
 
 # change ownership of directory
 RUN chown -R app-user:app-group /app
