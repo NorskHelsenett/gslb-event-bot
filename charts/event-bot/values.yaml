@@ -8,7 +8,7 @@ namespace: gslb-event-bot
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: ncr.sky.nhn.no/ghcr/NorskHelsenett/gslb-event-bot
+  repository: ncr.sky.nhn.no/ghcr/norskhelsenett/gslb-event-bot
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
@@ -151,11 +151,18 @@ volumes:
   - name: config
     configMap:
       name: event-bot-config
+  - name: secrets
+    secret:
+      secretName: gslb-event-bot-external-secret
+      readOnly: false
 
 volumeMounts:
   - name: config
     mountPath: /app/config.yaml
     subPath: config.yaml
+    readOnly: true
+  - name: secrets
+    mountPath: "/app/secrets"
     readOnly: true
 
 nodeSelector: {}
@@ -169,6 +176,7 @@ settings:
   log_level: INFO
   vk_addr: gslb-valkey-service.gslb-operator.svc.cluster.local:6379
   mq_enabled: true
+  secret_store: t-lb-001-secret-store
 
 events:
   - gslb
@@ -203,12 +211,18 @@ vault:
       property: valkey-user
     - secretKey: VK_PASS
       property: valkey-pass
+    - secretKey: SLACK_APP_TOKEN
+      property: slack-app-token
+    - secretKey: SLACK_BOT_TOKEN
+      property: slack-bot-token
+    - secretKey: SLACK_SIGNING_SECRET
+      property: slack-signing-secret
   mqSecretMappings:
     - secretKey: MQ_PASS
       property: mq-pass
     - secretKey: MQ_USER
       property: mq-user
-    - secretKEy: MQ_ENDPOINT
+    - secretKey: MQ_ENDPOINT
       property: mq-endpoint
 
 tests:
