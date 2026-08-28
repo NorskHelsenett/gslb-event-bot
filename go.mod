@@ -7,6 +7,7 @@ require (
 	github.com/slack-go/slack v0.24.0
 	github.com/spf13/viper v1.21.0
 	github.com/valkey-io/valkey-go v1.0.77
+	golang.org/x/sync v0.22.0
 )
 
 require (

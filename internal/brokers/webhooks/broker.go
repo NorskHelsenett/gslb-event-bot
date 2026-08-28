@@ -3,7 +3,6 @@ package webhooks
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/NorskHelsenett/gslb-event-bot/internal/config"
 	"github.com/NorskHelsenett/gslb-event-bot/internal/model"
@@ -25,8 +24,9 @@ func NewWebhooksBroker(ctx context.Context) *WebhooksBroker {
 				mqCfg.Pass(),
 				mqCfg.Endpoint(),
 			),
+			rabbitmq.WithExchange[model.Webhook]("ex.gslb.webhooks-registration"),
 			rabbitmq.WithQueue[model.Webhook]("q.gslb.webhooks-registration"),
-			rabbitmq.WithRetryConnectionBackOff[model.Webhook](time.Second*10),
+			rabbitmq.WithFanout[model.Webhook](),
 		),
 	}
 }
