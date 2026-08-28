@@ -14,6 +14,7 @@ var secretsKeyMap = map[string]string{
 	"VK_PASS":              "valkey.pass",
 	"MQ_PASS":              "mq.pass",
 	"MQ_USER":              "mq.user",
+	"MQ_ENDPOINT":          "mq.endpoint",
 	"SLACK_APP_TOKEN":      "slack.app_token",
 	"SLACK_BOT_TOKEN":      "slack.bot_token",
 	"SLACK_SIGNING_SECRET": "slack.signing_secret",

@@ -147,7 +147,6 @@ type mq struct {
 	Usr      string `mapstructure:"user"`
 	Passwd   string `mapstructure:"pass"`
 	EndPoint string `mapstructure:"endpoint"`
-	PORT     string `mapstructure:"port"`
 }
 
 func (mq *mq) Enabled() bool {
@@ -164,10 +163,6 @@ func (mq *mq) Pass() string {
 
 func (mq *mq) Endpoint() string {
 	return mq.EndPoint
-}
-
-func (mq *mq) Port() string {
-	return mq.PORT
 }
 
 type slack struct {

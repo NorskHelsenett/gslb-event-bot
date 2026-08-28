@@ -20,11 +20,10 @@ func NewWebhooksBroker(ctx context.Context) *WebhooksBroker {
 	return &WebhooksBroker{
 		client: rabbitmq.New(ctx,
 			fmt.Sprintf(
-				"amqp://%s:%s@%s:%s",
+				"amqp://%s:%s@%s",
 				mqCfg.User(),
 				mqCfg.Pass(),
 				mqCfg.Endpoint(),
-				mqCfg.Port(),
 			),
 			rabbitmq.WithQueue[model.Webhook]("q.gslb.webhooks-registration"),
 			rabbitmq.WithRetryConnectionBackOff[model.Webhook](time.Second*10),
