@@ -150,7 +150,7 @@ autoscaling:
 volumes:
   - name: config
     configMap:
-      name: event-bot-config
+      name: gslb-event-bot-config
   - name: secrets
     secret:
       secretName: gslb-event-bot-external-secret
