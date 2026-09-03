@@ -61,7 +61,7 @@ func init() {
 	}
 
 	switch cfg.Server.ENV {
-	case "dev", "development", "DEV", "DEVELOPMENT":
+	case "dev", "development", "DEV", "DEVELOPMENT", "local", "LOCAL":
 		handler = bslog.NewHandler(
 			os.Stdout, // log output
 			// slog handler factory

@@ -62,6 +62,22 @@ func (sh *SocketHandler) HandleSlashCommandSubscribe(e *socketmode.Event, c *soc
 	logger := bslog.With(slog.String("channel_id", cmd.ChannelID))
 
 	logger.Debug("received subscription command")
+
+	channel, err := c.Client.GetConversationInfo(&slack.GetConversationInfoInput{
+		ChannelID: cmd.ChannelID,
+	})
+	if err != nil {
+		logger.Error("failed to fetch channel info", slog.String("reason", err.Error()))
+		slack.PostWebhook(cmd.ResponseURL, &slack.WebhookMessage{Text: "failed to get channel information, Please contact #drift-lastbalansering"})
+		return
+	}
+
+	if !channel.IsMember {
+		logger.Info("skipping webhooks registration: event-bot is not a member in channel")
+		slack.PostWebhook(cmd.ResponseURL, &slack.WebhookMessage{Text: "gslb-event-bot needs to be a member in the channel to register webhooks, please invite me in your channel to continue."})
+		return
+	}
+
 	view, _ := sh.builder.NewSubscriptionModal(cmd.ChannelID)
 	view.PrivateMetadata = cmd.ChannelID
 

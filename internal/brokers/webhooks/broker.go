@@ -16,10 +16,19 @@ type WebhooksBroker struct {
 
 func NewWebhooksBroker(ctx context.Context) *WebhooksBroker {
 	mqCfg := config.MQ()
+	var amqpURLPrefix string
+
+	switch config.Server().Environment() {
+	case "local", "LOCAL":
+		amqpURLPrefix = "amqp://"
+	default:
+		amqpURLPrefix = "amqps://"
+	}
 	return &WebhooksBroker{
 		client: rabbitmq.New(ctx,
 			fmt.Sprintf(
-				"amqp://%s:%s@%s",
+				"%s%s:%s@%s",
+				amqpURLPrefix,
 				mqCfg.User(),
 				mqCfg.Pass(),
 				mqCfg.Endpoint(),
