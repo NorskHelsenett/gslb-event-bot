@@ -7,8 +7,8 @@ metadata:
 data:
   config.yaml: |
     server:
-      env: {{ .Values.settings.env }}
-      log_level: {{ .Values.settings.log_level }}
+      env: {{ .Values.env }}
+      log_level: {{ .Values.logLevel }}
 
     valkey:
       addr: {{ .Values.settings.vk_addr }}

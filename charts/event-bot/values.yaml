@@ -154,7 +154,6 @@ volumes:
   - name: secrets
     secret:
       secretName: gslb-event-bot-external-secret
-      readOnly: false
 
 volumeMounts:
   - name: config
@@ -172,11 +171,8 @@ tolerations: []
 affinity: {}
 
 settings:
-  env: dev
-  log_level: INFO
   vk_addr: gslb-valkey-service.gslb-operator.svc.cluster.local:6379
   mq_enabled: true
-  secret_store: t-lb-001-secret-store
 
 events:
   - gslb
